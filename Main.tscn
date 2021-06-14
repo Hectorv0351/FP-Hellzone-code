@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://Bomb.tscn" type="PackedScene" id=3]
+[ext_resource path="res://hud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Bomb_2.tscn" type="PackedScene" id=5]
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 2 )
+bombs = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1020.0
+margin_bottom = 599.0
+color = Color( 0.196078, 0.360784, 0.352941, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bombs" type="Timer" parent="."]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 494.59, 279.387 )
+
+[node name="phasetwo" type="Timer" parent="."]
+wait_time = 9.0
+one_shot = true
+
+[node name="switch" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="Scores" type="Timer" parent="."]
+
+[node name="hud" parent="." instance=ExtResource( 4 )]
+
+[node name="startpos" type="Position2D" parent="."]
+position = Vector2( 492.702, 281.274 )
+
+[node name="Enemy" parent="." instance=ExtResource( 5 )]
+visible = false
+
+[node name="Enemy2" parent="." instance=ExtResource( 3 )]
+visible = false
+[connection signal="timeout" from="Bombs" to="." method="_on_Bombs_timeout"]
+[connection signal="hit" from="Player" to="Enemy2" method="_on_Player_hit"]
+[connection signal="hit" from="Player" to="." method="_on_Player_hit"]
+[connection signal="hit" from="Player" to="Enemy" method="_on_Player_hit"]
+[connection signal="timeout" from="phasetwo" to="." method="_on_phasetwo_timeout"]
+[connection signal="timeout" from="phasetwo" to="." method="_on_2nd_phase_timeout"]
+[connection signal="timeout" from="switch" to="." method="_on_switch_timeout"]
+[connection signal="timeout" from="Scores" to="." method="_on_Scores_timeout"]
+[connection signal="start_game" from="hud" to="." method="_on_hud_start_game"]
